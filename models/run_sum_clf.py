@@ -42,17 +42,22 @@ opts, config = train_options(input_config, parser, device_to_use)
 
 if args.job == 'Train':
     test = False
+    val = False
+elif args.job == 'Val':
+    test = False
+    val = True
 else:
     test = True
+    val = False
 
 output_dir = args.output_dir#'./output/forum/'
 
 test_checkpoint_name = args.test_checkpoint_name
 
-dataset = load_dataset(config, test=test)
+dataset = load_dataset(config, test=test, val=val)
 
 # if aux_loss:
-if test is True:
+if test is True or val is True:
     print('Testing..............')
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
